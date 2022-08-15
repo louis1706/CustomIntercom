@@ -1,0 +1,74 @@
+name: MSBuild
+
+on: [push]
+
+env:
+  # Path to the solution file relative to the root of the project.
+  EXILED_REFERENCES_URL: https://www.exiled.host/build_deps/Master.zip
+  REFERENCES_PATH: ${{ github.workspace }}/References
+  SOLUTION_FILE_PATH: CustomIntercom.csproj
+
+  # Configuration type to build.
+  # You can convert this to a build matrix if you need coverage of multiple configuration types.
+  # https://docs.github.com/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
+  BUILD_CONFIGURATION: Release
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v1.0.2
+      
+    - name: Download Exiled latest release
+      uses: robinraju/release-downloader@v1.4
+      with: 
+        repository: "Exiled-Team/EXILED"
+        latest: true
+        out-file-path: ${{github.workspace}}
+        
+    - name: Extract Release and add to References
+      steps:
+      shell: pwsh
+      run: tar -xzvf 'Exiled.tar.gz' 
+      run: Get-ChildItem -Path EXILED -Recurse -File | Move-Item -Destination ${{ env.REFERENCES_PATH }}
+      
+    - name: Get references
+      shell: pwsh
+      run: |
+        Invoke-WebRequest -Uri ${{ env.EXILED_REFERENCES_URL }} -OutFile ${{ github.workspace }}/References.zip
+        Expand-Archive -Path References.zip -DestinationPath ${{ env.REFERENCES_PATH }}
+        
+    - name: Restore NuGet packages
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: nuget restore ${{env.SOLUTION_FILE_PATH}}
+
+    - name: Build
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      # Add additional options to the MSBuild command line here (like platform or verbosity level).
+      # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
+      run: msbuild ${{env.SOLUTION_FILE_PATH}} /m /p:ReferencePath=${{ env.REFERENCES_PATH }}
+      
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: commit_${{ github.sha }}
+        release_name: Commit ${{ github.sha }}
+        draft: false
+        prerelease: false
+    - name: Release Build
+      id: release-win
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: bin\Debug\CustomIntercom.dll
+        asset_name: CustomIntercom.dll
+        asset_content_type: application/octet-stream
