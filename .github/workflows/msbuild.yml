@@ -33,8 +33,8 @@ jobs:
     - name: Extract Release and add to References
       shell: pwsh
       run: |
-        tar -xzvf 'Exiled.tar.gz' 
-        Get-ChildItem -Path EXILED -Recurse -File | Move-Item -Destination ${{ env.REFERENCES_PATH }}
+        tar -xzvf 'Exiled.tar.gz' -C ${{ github.workspace }}/Temp
+        Get-ChildItem -Path ${{ github.workspace }}/Temp/EXILED -Recurse -File | Move-Item -Destination ${{ env.REFERENCES_PATH }}
       
     - name: Get references
       shell: pwsh
