@@ -5,6 +5,7 @@ on: [push]
 env:
   # Path to the solution file relative to the root of the project.
   EXILED_REFERENCES_URL: https://www.exiled.host/build_deps/Master.zip
+  TEMP_PATH: ${{ github.workspace }}/Temp
   REFERENCES_PATH: ${{ github.workspace }}/References
   SOLUTION_FILE_PATH: CustomIntercom.csproj
 
@@ -33,6 +34,7 @@ jobs:
     - name: Extract Release and add to References
       shell: pwsh
       run: |
+        mkdir ${{env.TEMP_PATH}}
         tar -xzvf 'Exiled.tar.gz' -C ${{ github.workspace }}/Temp
         Get-ChildItem -Path ${{ github.workspace }}/Temp/EXILED -Recurse -File | Move-Item -Destination ${{ env.REFERENCES_PATH }}
       
