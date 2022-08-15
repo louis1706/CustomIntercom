@@ -32,9 +32,10 @@ jobs:
         
     - name: Extract Release and add to References
       steps:
-       - shell: pwsh
        - run: tar -xzvf 'Exiled.tar.gz' 
+         shell: pwsh
        - run: Get-ChildItem -Path EXILED -Recurse -File | Move-Item -Destination ${{ env.REFERENCES_PATH }}
+         shell: pwsh
       
     - name: Get references
       shell: pwsh
