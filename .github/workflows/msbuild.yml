@@ -31,6 +31,7 @@ jobs:
         out-file-path: ${{github.workspace}}
         
     - name: Extract Release and add to References
+      using: "composite"
       steps:
        - run: tar -xzvf 'Exiled.tar.gz' 
          shell: pwsh
