@@ -97,6 +97,7 @@
     <Compile Include="Config.cs" />
     <Compile Include="IntercomPatche.cs" />
     <Compile Include="Main.cs" />
+    <Compile Include="NameFormaterPatche.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
