@@ -18,7 +18,7 @@ namespace CustomIntercom
                 Utils.CommandInterpolation.InterpolatedCommandFormatter interpolatedCommandFormatter = ServerConsole.singleton.NameFormatter;
                 //Int
                 interpolatedCommandFormatter.Commands.Add("intercom_speech_remaining_time", (List<string> args) => Mathf.CeilToInt(Exiled.API.Features.Intercom.SpeechRemainingTime).ToString());
-                interpolatedCommandFormatter.Commands.Add("intercom_remaining_cooldown", (List<string> args) => Mathf.CeilToInt(Exiled.API.Features.Intercom.RemainingCooldown).ToString());
+                interpolatedCommandFormatter.Commands.Add("intercom_remaining_cooldown", (List<string> args) => Mathf.CeilToInt(Intercom.host.remainingCooldown).ToString());
                 //String
                 interpolatedCommandFormatter.Commands.Add("intercom_speaker_nickname", (List<string> args) => Exiled.API.Features.Intercom.Speaker.Nickname.ToString());
                 //Bool
