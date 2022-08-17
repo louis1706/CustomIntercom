@@ -20,7 +20,7 @@ namespace CustomIntercom
                 interpolatedCommandFormatter.Commands.Add("intercom_speech_remaining_time", (List<string> args) => Mathf.CeilToInt(Exiled.API.Features.Intercom.SpeechRemainingTime).ToString());
                 interpolatedCommandFormatter.Commands.Add("intercom_remaining_cooldown", (List<string> args) => Mathf.CeilToInt(Intercom.host.remainingCooldown).ToString());
                 //String
-                interpolatedCommandFormatter.Commands.Add("intercom_speaker_nickname", (List<string> args) => Exiled.API.Features.Intercom.Speaker.Nickname.ToString());
+                interpolatedCommandFormatter.Commands.Add("intercom_speaker_nickname", (List<string> args) => (Exiled.API.Features.Intercom.Speaker?.Nickname).ToString());
                 //Bool
                 interpolatedCommandFormatter.Commands.Add("intercom_is_in_use", (List<string> args) => (Intercom.host.speaker is not null).ToString());
                 interpolatedCommandFormatter.Commands.Add("intercom_is_admin_speaking", (List<string> args) => Intercom.AdminSpeaking.ToString());
