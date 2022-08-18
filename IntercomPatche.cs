@@ -13,6 +13,7 @@ namespace CustomIntercom
             try
             {
                 __instance.CustomContent = ServerConsole.singleton.NameFormatter.ProcessExpression(IntercomTextUpdate.Singleton.Config.CustomText);
+                Log.Info($"Intercom::UpdateText Test {__instance.CustomContent}");
             }
             catch (Exception ex)
             {
