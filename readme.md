@@ -1,4 +1,11 @@
-# CustomIntercom
+# CustomIntercom 
+
+This plugin would not be update instead you can use https://github.com/louis1706/FacilityManagement
+
+
+
+
+
 
 This plugin make possible to customise the IntercomText on your server it's will be actualise every tick
 
